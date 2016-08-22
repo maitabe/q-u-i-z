@@ -14,6 +14,9 @@ $(document).ready(function() {
 	quizService.getQuestions(function() {
 		// data is ready
 		var sortQuestObj = quizService.questions;
+		var currentQ = 0;
+			var nextQ = currentQ + 1 ;
+			console.log(nextQ);
 
 		//hide next button
 		$('#nextQuestion').hide();
@@ -21,9 +24,7 @@ $(document).ready(function() {
 
 		$('#startGame').click(function() {
 
-			var currentQ = 0;
-			var nextQ = currentQ + 1 ;
-			console.log(nextQ);
+
 
 
 			//hide start button
@@ -49,6 +50,12 @@ $(document).ready(function() {
 			if (!answerSel) {
 				$('#errorMsg').text('You must select one of the answers');
 			}else{
+				$('#answers').empty();
+				$('#errorMsg').hide();
+				$('#question').html(sortQuestObj[nextQ].question);
+				for (var i = 0; i < sortQuestObj[nextQ].choices.length; i++) {
+				$('#answers').append('<label><input type="radio" name="answer" value="' + sortQuestObj[nextQ].choices[i] + '">' + sortQuestObj[nextQ].choices[i] + '</label><br />');
+			}
 
 			}
 		});
