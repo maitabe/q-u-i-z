@@ -13,6 +13,7 @@ $(document).ready(function() {
 
 	quizService.getQuestions(function() {
 		// data is ready
+		var sortQuestObj = quizService.questions;
 
 		//hide next button
 		$('#nextQuestion').hide();
@@ -20,12 +21,19 @@ $(document).ready(function() {
 
 		$('#startGame').click(function() {
 
+			var currentQ = 0;
+			var nextQ = currentQ + 1 ;
+			console.log(nextQ);
+
+
 			//hide start button
 			$(this).hide();
 
-			$('#question').append(quizService.questions[0].question);
-			for (var i = 0; i < quizService.questions[0].choices.length; i++) {
-				$('#answers').append('<label><input type="radio" name="answer" value="' + quizService.questions[0].choices[i] + '">' + quizService.questions[0].choices[i] + '</label><br />');
+
+
+			$('#question').html(sortQuestObj[currentQ].question);
+			for (var i = 0; i < sortQuestObj[currentQ].choices.length; i++) {
+				$('#answers').append('<label><input type="radio" name="answer" value="' + sortQuestObj[currentQ].choices[i] + '">' + sortQuestObj[currentQ].choices[i] + '</label><br />');
 			}
 
 			$('#nextQuestion').show();
