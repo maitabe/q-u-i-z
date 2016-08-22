@@ -1,10 +1,11 @@
 
 //global variables
-var quizService,
-	rightAnswers = [];
-	wrongAnswers = [];
+var quizService;
 
 
+function score() {
+
+}
 
 $(document).ready(function() {
 
