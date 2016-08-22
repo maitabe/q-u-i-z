@@ -4,7 +4,7 @@ var quizService;
 
 
 function score() {
-
+ //write something
 }
 
 $(document).ready(function() {
