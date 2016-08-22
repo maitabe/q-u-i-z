@@ -1,0 +1,24 @@
+
+	[
+	  	{
+			"question": "Who is Prime Minister of the United Kingdom?",
+			"choices": ["David Cameron", "Gordon Brown", "Winston Churchill", "Tony Blair"],
+			"correctAnswer":"0"
+		},
+		{
+			"question": "Which two actors directed themselves in movies and won Oscars for Best Actor?",
+			"choices": ["Al Pacino and Timothy Hutton", "Jack Nicholson and Kevin Spacey", "Laurence Olivier and Roberto Benigni", "Tom Hanks and Paul Newman"],
+			"correctAnswer":"2"
+		},
+		{
+			"question": "Who is the most nominated actor in Academy history?",
+			"choices": ["Jack Nicholson", "Laurence Olivier", "Spencer Tracy", "Paul Newman"],
+			"correctAnswer":"0"
+		},
+		{
+			"question": "What was the first Western to win the Academy Award for Best Picture?",
+			"choices": ["Brokeback Mountain (2005)", "Cimarron (1930/31)", "The Last Wagon (1956)", "Stagecoach (1939)"],
+			"correctAnswer":"1"
+		}
+
+	]
