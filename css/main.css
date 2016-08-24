@@ -54,7 +54,7 @@ button.start {
     margin-top: 100px;
 }
 
-section.q_cont, section.a_cont {
+section.q_cont, section.a_cont, section div#finalSentence{
 	width: 80%;
 	margin: 0 auto;
     margin-top: 50px;
