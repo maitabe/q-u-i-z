@@ -7,14 +7,17 @@ var quizService,
 	question,
 	answers,
 	score = 0,
-	scoreWrong = 0;
+	scoreWrong = 0,
+	quizover = false;
 
 // loop to get different answers
 function getAnswers() {
 
+	//how to reset the answers
+
 	for (var i = 0; i < answers.length; i++) {
 
-				$('#answers').append('<label><input type="radio" name="answer" data-index= '+i+' value="' + answers[i] + '">' + answers[i] + '</label><br />');
+				$('#answers').append('<label><input type="radio" name="answer" data-index= '+i+' value="' + answers[i] + '">' + answers[i] + '</label><br />').fadeIn();
 				console.log(i);
 				console.log(answers[i]);
 			}
@@ -52,6 +55,16 @@ function registerAnswers() {
 			});
 }
 
+function resetQuiz() {
+	currentQ = 0;
+	$('#question, #answers').empty();
+	$('#question, #answers, #nextQuestion').show();
+	$('#nextQuestion').text("Next");
+	$('#nextQuestion').attr('value', 'Next' );
+	$('#finalSentence').empty();
+	$('#finalSentence').hide();
+}
+
 
 $(document).ready(function() {
 	//init code
@@ -65,11 +78,7 @@ $(document).ready(function() {
 	quizService.getQuestions(function() {
 		// data is ready
 		sortQuestObj = quizService.questions;
-
-		totalQ = sortQuestObj.length;
-		question = sortQuestObj[currentQ].question;
-		answers = sortQuestObj[currentQ].choices;
-
+		$('#startGame').show();
 	});
 
 		//handlers
@@ -77,11 +86,20 @@ $(document).ready(function() {
 		//"start" button to initialize the game
 		$('#startGame').click(function() {
 
+			//reset game
+			resetQuiz();
+
+			// get current q&a data
+			question = sortQuestObj[currentQ].question;
+			answers = sortQuestObj[currentQ].choices;
+			totalQ = sortQuestObj.length;
+			lastQ = sortQuestObj.length - 1;
+
 			//hide start button
 			$(this).hide();
 
 			//display first question & answers
-			$('#question').html(question);
+			$('#question').html(sortQuestObj[currentQ].question);
 
 			getAnswers();
 
@@ -92,13 +110,25 @@ $(document).ready(function() {
 		//"next" button - manage the questions dynamically
 		$('#nextQuestion').click(function() {
 
-			//get value text of bottom
+			//get value text of button
 			 var totalScore = $(this).prop("value");
 
 
 			 	if (totalScore === 'Total Score') {
 			 		// print total score
+
 					$('#finalSentence').html('you got '+ score + ' correct answers, out of ' + totalQ );
+					$('#finalSentence').show();
+
+					//hide q&a + button
+					$('#question, #answers, #nextQuestion').hide();
+
+					//show start button
+					$('#startGame').show();
+
+					quizover = true;
+
+
 				}else {
 					//dynamic to get the next question
 
