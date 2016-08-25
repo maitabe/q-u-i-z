@@ -58,19 +58,16 @@ function registerAnswers() {
 function resetQuiz() {
 	currentQ = 0;
 	$('#question, #answers').empty();
+	$('#finalSentence').empty();
+	// $('#finalSentence').hide();
 	$('#question, #answers, #nextQuestion').show();
 	$('#nextQuestion').text("Next");
 	$('#nextQuestion').attr('value', 'Next' );
-	$('#finalSentence').empty();
-	$('#finalSentence').hide();
 }
 
 
 $(document).ready(function() {
 	//init code
-
-	//hide next button
-	// $('#nextQuestion').css();
 
 	quizService = new QuizService();
 
@@ -97,6 +94,7 @@ $(document).ready(function() {
 
 			//hide start button
 			$(this).hide();
+			$('#nextQuestion').css('visibility', 'hidden');
 
 			//display first question & answers
 			$('#question').html(sortQuestObj[currentQ].question);
@@ -110,6 +108,7 @@ $(document).ready(function() {
 		//"next" button - manage the questions dynamically
 		$('#nextQuestion').click(function() {
 
+			$('#nextQuestion').show();
 			//get value text of button
 			 var totalScore = $(this).prop("value");
 
@@ -124,6 +123,8 @@ $(document).ready(function() {
 					$('#question, #answers, #nextQuestion').hide();
 
 					//show start button
+					$('#startGame').text("Play Again!");
+					$('#startGame').attr('value', 'playAgain' );
 					$('#startGame').show();
 
 					quizover = true;
