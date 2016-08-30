@@ -1,22 +1,16 @@
 
 //global variables
 var quizService,
-	currentQ = 0,
-	sortQuestObj,
-	totalQ,
-	question,
-	answers,
 	score = 0,
-	scoreWrong = 0,
-	quizover = false;
+	scoreWrong = 0;
 
 // loop to get different answers
 function getAnswers() {
 
+	var answers = qs.getCurrentAnswers();
 	//how to reset the answers
 
 	for (var i = 0; i < answers.length; i++) {
-
 				$('#answers').append('<label><input type="radio" name="answer" data-index= '+i+' value="' + answers[i] + '">' + answers[i] + '</label><br />').fadeIn();
 				console.log(i);
 				console.log(answers[i]);
@@ -35,7 +29,7 @@ function registerAnswers() {
 				var answerIndex = $('input:checked').data('index');
 
 				//convert string to a number
-				var correctAnswer =  parseInt(sortQuestObj[currentQ].correctAnswer);
+				var correctAnswer =  qs.getCorrectAnswer();
 
 					//compare selected answer vs correct answer
 					if(answerIndex === correctAnswer) {
@@ -48,12 +42,21 @@ function registerAnswers() {
 						scoreWrong = scoreWrong + 1;
 					}
 
-				//display "next" button to go to the next question
-				$('#nextQuestion').css('visibility', 'visible');
-				 console.log(score);
-				 console.log(scoreWrong);
+					if (qs.isLastQuestion()) {
+						//change text of button to "Total Score"
+						 $('#nextQuestion').text("Total Score");
+						 $('#nextQuestion').attr('value', 'Total Score' );
+						 $('#nextQuestion').css('visibility', 'visible');
+
+					}else {
+					//display "next" button to go to the next question
+					$('#nextQuestion').css('visibility', 'visible');
+					}
+
+
 			});
 }
+
 
 function resetQuiz() {
 	currentQ = 0;
@@ -69,12 +72,12 @@ function resetQuiz() {
 $(document).ready(function() {
 	//init code
 
-	quizService = new QuizService();
+	//quizService = qs
+	qs = new QuizService();
 
 	//get questions & answers from the server
-	quizService.getQuestions(function() {
+	qs.getQuestions(function() {
 		// data is ready
-		sortQuestObj = quizService.questions;
 		$('#startGame').show();
 	});
 
@@ -86,18 +89,13 @@ $(document).ready(function() {
 			//reset game
 			resetQuiz();
 
-			// get current q&a data
-			question = sortQuestObj[currentQ].question;
-			answers = sortQuestObj[currentQ].choices;
-			totalQ = sortQuestObj.length;
-			lastQ = sortQuestObj.length - 1;
-
 			//hide start button
 			$(this).hide();
 			$('#nextQuestion').css('visibility', 'hidden');
+			$('#backButton').css('visibility', 'hidden');
 
 			//display first question & answers
-			$('#question').html(sortQuestObj[currentQ].question);
+			$('#question').html(qs.getCurrentQuestion());
 
 			getAnswers();
 
@@ -109,14 +107,15 @@ $(document).ready(function() {
 		$('#nextQuestion').click(function() {
 
 			$('#nextQuestion').show();
+
 			//get value text of button
 			 var totalScore = $(this).prop("value");
 
 
-			 	if (totalScore === 'Total Score') {
+			if (totalScore === 'Total Score') {
 			 		// print total score
 
-					$('#finalSentence').html('you got '+ score + ' correct answers, out of ' + totalQ );
+					$('#finalSentence').html('you got '+ score + ' correct answers, out of ' + qs.getTotalQuestions() );
 					$('#finalSentence').show();
 
 					//hide q&a + button
@@ -127,9 +126,6 @@ $(document).ready(function() {
 					$('#startGame').attr('value', 'playAgain' );
 					$('#startGame').show();
 
-					quizover = true;
-
-
 				}else {
 					//dynamic to get the next question
 
@@ -138,36 +134,30 @@ $(document).ready(function() {
 
 					//get value of selected answer
 					var answerSel = $('input:checked').val();
-
-					//increment the question number
-					currentQ = currentQ + 1 ;
-
-					question = sortQuestObj[currentQ].question;
-					answers = sortQuestObj[currentQ].choices;
-					totalQ = sortQuestObj.length;
-					lastQ = sortQuestObj.length - 1;
-
+					$('#question').empty();
+					$('#answers').empty();
+					$('#errorMsg').hide();
 					//grab the last element of array
-					if (currentQ === lastQ) {
+					if (qs.isLastQuestion()) {
 						//change text of button to "Total Score"
 						 $('#nextQuestion').text("Total Score");
 						 $('#nextQuestion').attr('value', 'Total Score' );
 						 console.log(score);
 						 console.log(scoreWrong);
+					}else{
+						qs.nextQuestion();
+						$('#question').html(qs.getCurrentQuestion());
+
+						getAnswers();
+						registerAnswers();
 					}
 
-					$('#answers').empty();
-					$('#errorMsg').hide();
-					$('#question').html(question);
 
 
 					// if (!answerSel) {
 					// 	$('#errorMsg').text('You must select one of the answers');
 					// }else {}
 
-					getAnswers();
-
-					registerAnswers();
 
 				}
 

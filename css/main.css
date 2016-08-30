@@ -76,7 +76,19 @@ button#nextQuestion {
     background: coral;
     border: none;
     visibility: hidden;
+    margin-right: 130px;
+    float: right;
 }
+
+/*button#backButton {
+    background: slategrey;
+    display: block;
+    margin-left: 76px;
+    margin-top: 49px;
+    border: none;
+    visibility: hidden;
+    float: left;
+}*/
 
 div#errorMsg {
     margin-top: 18px;
