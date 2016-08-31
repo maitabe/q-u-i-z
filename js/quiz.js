@@ -69,8 +69,17 @@ function resetQuiz() {
 }
 
 
+
 $(document).ready(function() {
 	//init code
+	$(window).load(function() {
+		$('#loginScreen').show();
+	});
+
+	//login form
+	$('.message a').click(function(){
+		$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+	});
 
 	//quizService = qs
 	qs = new QuizService();
@@ -142,8 +151,6 @@ $(document).ready(function() {
 						//change text of button to "Total Score"
 						 $('#nextQuestion').text("Total Score");
 						 $('#nextQuestion').attr('value', 'Total Score' );
-						 console.log(score);
-						 console.log(scoreWrong);
 					}else{
 						qs.nextQuestion();
 						$('#question').html(qs.getCurrentQuestion());
