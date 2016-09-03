@@ -1,14 +1,15 @@
 
-function QuizService() {
+function QuizService(url) {
 	// data
 	this._questions = undefined;
 
 	this._currentQ = 0;
+	this._url = url;
 
 	//methods
 	this.getQuestions = function(callback) {
 		var that = this;
-		$.get('http://localhost:3005/db', function(dataServer, status) {
+		$.get(that._url, function(dataServer, status) {
 			that._questions = dataServer;
 			callback();
 		});
@@ -38,24 +39,11 @@ function QuizService() {
 		return parseInt(this._questions[this._currentQ].correctAnswer);
 	};
 
+	this.resetGame = function() {
+	 	this._currentQ = 0;
+	};
+
 }
-
-// function User(name, email) {
-
-// 	this.name = name;
-// 	this.email = email;
-// 	this.quizScores = [];
-// 	this.currentScore = 0;
-// }
-
-// User.prototype = {
-// 	constructor: User,
-// 	saveScore: function(scoreToAdd) {
-// 		this.quizScores.push(scoreToAdd)
-// 	},
-
-
-// },
 
 
 

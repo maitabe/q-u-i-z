@@ -33,7 +33,10 @@ h1 {
 h2 {
 	color:green;
 	margin-top: 20px;
-	margin-bottom: 90px;
+}
+
+h3#loggedUser {
+    color: mediumblue
 }
 
 section button {
@@ -177,4 +180,10 @@ div#errorMsg {
 }
 .form .register-form {
   display: none;
+}
+
+.login-form #errorMsgLogin {
+    margin-top: 10px;
+    color: red;
+    font-size: 12px;
 }

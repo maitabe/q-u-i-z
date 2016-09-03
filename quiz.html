@@ -11,18 +11,20 @@
               <div class="modal-content">
                 <!-- <span class="close">×</span> -->
                 <h2 class="modal-title">Hello there!</h2>
+                <!-- source - http://codepen.io/colorlib/pen/rxddKy -->
                 <div class="form">
 					<form class="register-form">
-					  <input type="text" placeholder="name"/>
-					  <input type="password" placeholder="password"/>
-					  <input type="text" placeholder="email address"/>
-					  <button>create</button>
+					  <input type="text" id="usernameNew" placeholder="name"/>
+					  <input type="password" id="passwordNew" placeholder="password"/>
+					  <input type="text" id="emailadressNew" placeholder="email address"/>
+					  <button id="newUser">create</button>
 					  <p class="message">Already registered? <a href="#">Sign In</a></p>
 					</form>
 					<form class="login-form">
-					  <input type="text" placeholder="username"/>
-					  <input type="password" placeholder="password"/>
-					  <button>login</button>
+					  <input type="text" id="userName" placeholder="username"/>
+					  <input type="password" id="passWord" placeholder="password"/>
+					  <p id="errorMsgLogin"></p>
+					  <button id="userLogin">login</button>
 					  <p class="message">Not registered? <a href="#">Create an account</a></p>
 					</form>
   				</div>
@@ -35,6 +37,7 @@
 		<h1>Real-World JavaScript Quiz Application</h1>
 
 		<h2>Get your best score</h2>
+		<h3 id="loggedUser"></h3>
 
 		<div id="finalSentence"></div>
 
@@ -60,5 +63,6 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/quiz.js"></script>
 	<script src="js/quizService.js"></script>
+	<script src="js/authenticationService.js"></script>
 </body>
 </html>

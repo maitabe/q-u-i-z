@@ -3,6 +3,7 @@
 var quizService,
 	score = 0,
 	scoreWrong = 0;
+	quizEnd = false;
 
 // loop to get different answers
 function getAnswers() {
@@ -12,8 +13,6 @@ function getAnswers() {
 
 	for (var i = 0; i < answers.length; i++) {
 				$('#answers').append('<label><input type="radio" name="answer" data-index= '+i+' value="' + answers[i] + '">' + answers[i] + '</label><br />').fadeIn();
-				console.log(i);
-				console.log(answers[i]);
 			}
 }
 
@@ -33,12 +32,9 @@ function registerAnswers() {
 
 					//compare selected answer vs correct answer
 					if(answerIndex === correctAnswer) {
-						console.log('bingo');
 						score  = score + 1;
 
 					}else {
-						console.log('try again!');
-
 						scoreWrong = scoreWrong + 1;
 					}
 
@@ -53,13 +49,12 @@ function registerAnswers() {
 					$('#nextQuestion').css('visibility', 'visible');
 					}
 
-
 			});
 }
 
 
 function resetQuiz() {
-	currentQ = 0;
+	qs.resetGame();
 	$('#question, #answers').empty();
 	$('#finalSentence').empty();
 	// $('#finalSentence').hide();
@@ -72,17 +67,19 @@ function resetQuiz() {
 
 $(document).ready(function() {
 	//init code
-	$(window).load(function() {
-		$('#loginScreen').show();
-	});
+	$('#loginScreen').show();
 
 	//login form
 	$('.message a').click(function(){
 		$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 	});
 
+	//login - userService = us
+	as = new AuthService();
+
+
 	//quizService = qs
-	qs = new QuizService();
+	qs = new QuizService('http://localhost:3005/db');
 
 	//get questions & answers from the server
 	qs.getQuestions(function() {
@@ -91,6 +88,33 @@ $(document).ready(function() {
 	});
 
 		//handlers
+		//create user button
+	$('#newUser').on('click', function() {
+		var userSignin = $('#usernameNew').val();
+		var passwordSignin = $('#passwordNew').val();
+		var emailSignin = $('#emailadressNew').val();
+		var userObj = {userObj:userSignin, password:passwordSignin, email:emailSignin };
+		// save
+		localStorage.setItem("user", JSON.stringify(userObj));
+		$('#loginScreen').hide();
+		$('#loggedUser').html('Hello ' + userSignin);
+	});
+
+ 		// login user button
+	$('#userLogin').on('click', function() {
+		//get user and password values
+		var user = $('#userName').val();
+		var password = $('#passWord').val();
+        //user + password values
+		var userExist = as.loginUser(user, password);
+
+		if (userExist) {
+			  $('#loginScreen').hide();
+			  $('#loggedUser').html('Hello ' + user);
+		}else{
+			  $('#errorMsgLogin').text('Your credentials are not here, they might have gone to mars');
+		}
+	});
 
 		//"start" button to initialize the game
 		$('#startGame').click(function() {
@@ -115,7 +139,7 @@ $(document).ready(function() {
 		//"next" button - manage the questions dynamically
 		$('#nextQuestion').click(function() {
 
-			$('#nextQuestion').show();
+			// $('#nextQuestion').show();
 
 			//get value text of button
 			 var totalScore = $(this).prop("value");
@@ -146,6 +170,7 @@ $(document).ready(function() {
 					$('#question').empty();
 					$('#answers').empty();
 					$('#errorMsg').hide();
+
 					//grab the last element of array
 					if (qs.isLastQuestion()) {
 						//change text of button to "Total Score"
@@ -159,12 +184,9 @@ $(document).ready(function() {
 						registerAnswers();
 					}
 
-
-
 					// if (!answerSel) {
 					// 	$('#errorMsg').text('You must select one of the answers');
 					// }else {}
-
 
 				}
 
