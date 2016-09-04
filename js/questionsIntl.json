@@ -1,0 +1,24 @@
+
+	[
+	  	{
+			"question": "What is Mexico's official name (in English)?",
+			"choices": ["Mexico", "Republic of Mexico", "United States of Mexico", "United Mexican States"],
+			"correctAnswer":"3"
+		},
+		{
+			"question": "Mexico is dissected by the?",
+			"choices": ["Equator", "Tropic of Cancer", "Tropic of Capricorn", "None of these"],
+			"correctAnswer":"1"
+		},
+		{
+			"question": "What globally popular footwear originated more than 500 years ago in Mexico?",
+			"choices": ["Huarache", "Flip-flop", "Wedge", "Stiletto"],
+			"correctAnswer":"0"
+		},
+		{
+			"question": "The Yucatan Channel (or Straits of Yucatan) is a 120-mile strait in the Gulf of Mexico between Mexico and?",
+			"choices": ["Cuba", "Florida", "Brazil", "Hawaii"],
+			"correctAnswer":"0"
+		}
+
+	]

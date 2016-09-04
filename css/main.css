@@ -43,6 +43,12 @@ section button {
 	text-align: center;
 }
 
+p#todayDate {
+    text-align: right;
+    color: black;
+    font-weight: 400;
+}
+
 button {
 	width: 200px;
     height: 50px;
@@ -79,8 +85,15 @@ button#nextQuestion {
     background: coral;
     border: none;
     visibility: hidden;
-    margin-right: 130px;
+    margin-right: 40%;
     float: right;
+}
+
+button#nextQuiz {
+    margin-top: 50px;
+    color: white;
+    background: coral;
+    border: 1px solid darkorange;
 }
 
 /*button#backButton {

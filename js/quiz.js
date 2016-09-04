@@ -3,12 +3,12 @@
 var quizService,
 	score = 0,
 	scoreWrong = 0;
-	quizEnd = false;
 
 // loop to get different answers
 function getAnswers() {
 
 	var answers = qs.getCurrentAnswers();
+		//answers = qs1.getCurrentAnswers();
 	//how to reset the answers
 
 	for (var i = 0; i < answers.length; i++) {
@@ -29,6 +29,7 @@ function registerAnswers() {
 
 				//convert string to a number
 				var correctAnswer =  qs.getCorrectAnswer();
+					//correctAnswer =  qs1.getCorrectAnswer();
 
 					//compare selected answer vs correct answer
 					if(answerIndex === correctAnswer) {
@@ -38,7 +39,7 @@ function registerAnswers() {
 						scoreWrong = scoreWrong + 1;
 					}
 
-					if (qs.isLastQuestion()) {
+					if (qs.isLastQuestion() ) {
 						//change text of button to "Total Score"
 						 $('#nextQuestion').text("Total Score");
 						 $('#nextQuestion').attr('value', 'Total Score' );
@@ -61,6 +62,7 @@ function resetQuiz() {
 	$('#question, #answers, #nextQuestion').show();
 	$('#nextQuestion').text("Next");
 	$('#nextQuestion').attr('value', 'Next' );
+	$('#nextQuiz').hide();
 }
 
 
@@ -74,19 +76,26 @@ $(document).ready(function() {
 		$('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 	});
 
+	var date = new Date();
+	var n = date.toDateString();
+	var time = date.toLocaleTimeString();
+
+	$('#todayDate').html(n + ' ' + time);
+
 	//login - userService = us
 	as = new AuthService();
 
 
 	//quizService = qs
 	qs = new QuizService('http://localhost:3005/db');
+	//
 
 	//get questions & answers from the server
 	qs.getQuestions(function() {
 		// data is ready
 		$('#startGame').show();
+		$('#nextQuiz').hide();
 	});
-
 		//handlers
 		//create user button
 	$('#newUser').on('click', function() {
@@ -126,6 +135,7 @@ $(document).ready(function() {
 			$(this).hide();
 			$('#nextQuestion').css('visibility', 'hidden');
 			$('#backButton').css('visibility', 'hidden');
+			$('#nextQuiz').hide();
 
 			//display first question & answers
 			$('#question').html(qs.getCurrentQuestion());
@@ -158,6 +168,7 @@ $(document).ready(function() {
 					$('#startGame').text("Play Again!");
 					$('#startGame').attr('value', 'playAgain' );
 					$('#startGame').show();
+					$('#nextQuiz').show();
 
 				}else {
 					//dynamic to get the next question
@@ -189,6 +200,35 @@ $(document).ready(function() {
 					// }else {}
 
 				}
+
+		});
+
+		$('#nextQuiz').click(function() {
+
+			qs = new QuizService('http://localhost:3006/db');
+
+			qs.getQuestions(function() {
+
+				// data is ready
+				resetQuiz();
+
+				//hide start button
+				$(this).hide();
+				$('#nextQuestion').css('visibility', 'hidden');
+				$('#backButton').css('visibility', 'hidden');
+				$('#nextQuiz').hide();
+				$('#startGame').hide();
+
+				//display first question & answers
+				$('#question').html(qs.getCurrentQuestion());
+
+				getAnswers();
+
+				registerAnswers();
+
+			});
+
+
 
 		});
 
