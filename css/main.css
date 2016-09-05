@@ -49,6 +49,12 @@ p#todayDate {
     font-weight: 400;
 }
 
+p#quizName {
+    text-align: right;
+    font-weight: bold;
+    background: crimson;
+}
+
 button {
 	width: 200px;
     height: 50px;

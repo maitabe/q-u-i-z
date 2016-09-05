@@ -87,8 +87,9 @@ $(document).ready(function() {
 
 
 	//quizService = qs
-	qs = new QuizService('http://localhost:3005/db');
-	//
+	qs = new QuizService('http://localhost:3005/db', "movies");
+
+	$('#quizName').html(qs.getTitle());
 
 	//get questions & answers from the server
 	qs.getQuestions(function() {
@@ -205,30 +206,39 @@ $(document).ready(function() {
 
 		$('#nextQuiz').click(function() {
 
-			qs = new QuizService('http://localhost:3006/db');
+			//changing quiz each time
+			if(qs.subject === 'movies'){
+				//mexico
+				qs = new QuizService('http://localhost:3006/db', "mexico");
 
-			qs.getQuestions(function() {
-
-				// data is ready
-				resetQuiz();
-
-				//hide start button
-				$(this).hide();
-				$('#nextQuestion').css('visibility', 'hidden');
-				$('#backButton').css('visibility', 'hidden');
-				$('#nextQuiz').hide();
-				$('#startGame').hide();
-
-				//display first question & answers
-				$('#question').html(qs.getCurrentQuestion());
-
-				getAnswers();
-
-				registerAnswers();
-
-			});
+			}else{
+				//movies
+				qs = new QuizService('http://localhost:3005/db', "movies");
+			}
 
 
+				$('#quizName').html('Mexican quiz');
+
+				qs.getQuestions(function() {
+
+					// data is ready
+					resetQuiz();
+
+					//hide start button
+					$(this).hide();
+					$('#nextQuestion').css('visibility', 'hidden');
+					$('#backButton').css('visibility', 'hidden');
+					$('#nextQuiz').hide();
+					$('#startGame').hide();
+
+					//display first question & answers
+					$('#question').html(qs.getCurrentQuestion());
+
+					getAnswers();
+
+					registerAnswers();
+
+				});
 
 		});
 

@@ -1,10 +1,12 @@
 
-function QuizService(url) {
+function QuizService(url, subject) {
 	// data
 	this._questions = undefined;
 
 	this._currentQ = 0;
 	this._url = url;
+	this.subject = subject;
+
 
 	//methods
 	this.getQuestions = function(callback) {
@@ -41,6 +43,10 @@ function QuizService(url) {
 
 	this.resetGame = function() {
 	 	this._currentQ = 0;
+	};
+
+	this.getTitle = function() {
+		return this.subject + ' quiz';
 	};
 
 }
